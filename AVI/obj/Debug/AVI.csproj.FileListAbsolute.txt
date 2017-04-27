@@ -34,3 +34,11 @@ J:\Разработки\AiEngineer\AVI\bin\Debug\AForge.Video.FFMPEG.xml
 J:\Разработки\AiEngineer\AVI\obj\Debug\AVI.csprojResolveAssemblyReference.cache
 J:\Разработки\AiEngineer\AVI\obj\Debug\AVI.dll
 J:\Разработки\AiEngineer\AVI\obj\Debug\AVI.pdb
+J:\AiEngineer\AVI\bin\Debug\AVI.dll
+J:\AiEngineer\AVI\bin\Debug\AVI.pdb
+J:\AiEngineer\AVI\bin\Debug\AForge.xml
+J:\AiEngineer\AVI\bin\Debug\AForge.Video.xml
+J:\AiEngineer\AVI\bin\Debug\AForge.Video.FFMPEG.xml
+J:\AiEngineer\AVI\obj\Debug\AVI.csprojResolveAssemblyReference.cache
+J:\AiEngineer\AVI\obj\Debug\AVI.dll
+J:\AiEngineer\AVI\obj\Debug\AVI.pdb

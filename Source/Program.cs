@@ -19,10 +19,29 @@ namespace EncogExample
 {
     public class Program
     {
+		
+    	public class Cell{
+    		public double BasicMass;
+    		public string Type;
+    		public string Subtype;
+    		public string ID ()
+    		{
+    			return Guid.NewGuid().ToString();
+    		}
+    		public double Mass()
+    		{
+    			return BasicMass;
+    		}
+    	}
+    		
+    	public class Storage:Cell{
+    		public double Volume;
+    		public double Ammount;
+    		
+    	}
+    		
 
-      
-
-        public class Life
+        public class Engineer
         {
             double pL, pR, pB, pT = 0.0; //значения движителей
             double sL, sR, sB, sT = 0.0; //значения сенсоров
@@ -35,9 +54,9 @@ namespace EncogExample
             public double y { get; set; }
             public string id = Guid.NewGuid().ToString();
             BasicNetwork network = new BasicNetwork();
-            Random rnd = new Random((int)(DateTime.Now.Ticks%int.MaxValue ) );
-            List<Life> World; 
-            public Life(List<Life> world,double X,double Y, List<LayerConfig> newgen=null, Life parent=null  )
+            Random rnd = new Random(Guid.NewGuid().GetHashCode() );
+            List<Engineer> World; 
+            public Engineer(List<Engineer> world,double X,double Y, List<LayerConfig> newgen=null, Engineer parent=null  )
             {
                 x = X;
                 y = Y;
@@ -235,7 +254,7 @@ namespace EncogExample
                         catch (Exception)
                         {
                             World.Remove(this);
-                            Life newlife = new Life(World, x, y);
+                            Engineer newlife = new Engineer(World, x, y);
                             World.Add(newlife);
                             break;
                         }
@@ -270,7 +289,7 @@ namespace EncogExample
                     if (nearcount==0)
                     {
                         World.Remove(this);
-                        Life newlife = new Life(World, x, y);
+                        Engineer newlife = new Engineer(World, x, y);
                         World.Add(newlife);
                     }
                     Memory.RemoveAt(0);
@@ -378,7 +397,7 @@ namespace EncogExample
                     y = y - 1;
                 }
             }
-            Life nearlife = null;
+            Engineer nearlife = null;
             void RefreshSense()
             {
                ret1: double mind = 99999;
@@ -388,7 +407,7 @@ namespace EncogExample
                 sT = 0;
                try
                {
-                   foreach (Life life in World)
+                   foreach (Engineer life in World)
                    {
                        if (life.id != this.id)
                        {
@@ -442,12 +461,12 @@ namespace EncogExample
                                                nearlife.borntimeout = 0;
                                                if (nearlife.nearcount < nearcount)
                                                {
-                                                   Life newlife = new Life(World, x + rnd.NextDouble() / 20 - rnd.NextDouble() / 20, y + rnd.NextDouble() / 20 - rnd.NextDouble() / 20, genotype ,this );
+                                                   Engineer newlife = new Engineer(World, x + rnd.NextDouble() / 20 - rnd.NextDouble() / 20, y + rnd.NextDouble() / 20 - rnd.NextDouble() / 20, genotype ,this );
                                                    world.Add(newlife);
                                                }
                                                else
                                                {
-                                                   Life newlife = new Life(World, x + rnd.NextDouble() / 20 - rnd.NextDouble() / 20, y + rnd.NextDouble() / 20 - rnd.NextDouble() / 20,nearlife.genotype,nearlife  );
+                                                   Engineer newlife = new Engineer(World, x + rnd.NextDouble() / 20 - rnd.NextDouble() / 20, y + rnd.NextDouble() / 20 - rnd.NextDouble() / 20,nearlife.genotype,nearlife  );
                                                    world.Add(newlife);
                                                }
                                                borncount -= 1;
@@ -515,7 +534,7 @@ namespace EncogExample
                }
             }
 
-            double GetDistLife(Life l1)
+            double GetDistLife(Engineer l1)
             {
                 return GetDist(l1.x, x, l1.y, y);
             }
@@ -531,7 +550,7 @@ namespace EncogExample
             return Math.Sqrt(Math.Pow(x1 - x2, 2) + Math.Pow(y1 - y2, 2));
         }
 
-        static List<Life> world = new List<Life>();
+        static List<Engineer> world = new List<Engineer>();
         static Bitmap frame;
        
         static void Draw()
@@ -555,11 +574,11 @@ namespace EncogExample
                     Console.ForegroundColor = ConsoleColor.White;
                 }
                 Console.Write("#");
-                Life nearlife =null ; double mind = 9999;
+                Engineer nearlife =null ; double mind = 9999;
                 xx = (int)Math.Ceiling(life.x * frame.Width );
                 yy = (int)Math.Ceiling(life.y * frame.Height );
                 
-                foreach (Life lifeform in world)
+                foreach (Engineer lifeform in world)
                 {
                     if (life.id != lifeform.id)
                     {
@@ -601,11 +620,11 @@ namespace EncogExample
         static void Main(string[] args)
         {
             // create a neural network, without using a factory
-            Random rnd = new Random((int)(DateTime.Now.Ticks % int.MaxValue));
+            Random rnd = new Random(Guid.NewGuid().GetHashCode());
 
             for (int i = 0; i < 23; i++)
             {
-                Life life = new Life(world, rnd.NextDouble(), rnd.NextDouble());
+                Engineer life = new Engineer(world, rnd.NextDouble(), rnd.NextDouble());
                 world.Add(life);
             }
           
@@ -643,7 +662,7 @@ namespace EncogExample
                     //    {
                     //    }
                     //}
-                    Parallel.ForEach(world.Cast<Life>(),
+                    Parallel.ForEach(world.Cast<Engineer>(),
                     life =>
                     {
                         life.DoLive();
